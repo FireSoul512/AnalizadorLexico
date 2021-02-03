@@ -37,7 +37,7 @@ public class AnalizadorLexico {
     }
 
     private boolean validarPunto(String word){
-        if(word.equals(".")) return true;
+        if(word.equals("\\.")) return true;
         return false;
     }
 
@@ -72,9 +72,7 @@ public class AnalizadorLexico {
         return matcher.find();
     }
 
-    @SuppressWarnings("unused")
 	private String[] separateWords(String code){
-        code = code+"\n";
         Pattern p;
         Matcher m;
 
@@ -88,7 +86,7 @@ public class AnalizadorLexico {
         signos.add("-");
         signos.add("\\*");
         signos.add("/");
-        signos.add(".");
+        signos.add("\\.");
         signos.add("\\(");
         signos.add("\\)");
         signos.add("\\{");
@@ -104,7 +102,7 @@ public class AnalizadorLexico {
         m=p.matcher(code);
         code = m.replaceAll(" -> ");
 
-        String[] separate = code.split("(\\t|\n| )+");
+        String[] separate = code.split("(\n|\\t| )+");
         return separate;
     }
 

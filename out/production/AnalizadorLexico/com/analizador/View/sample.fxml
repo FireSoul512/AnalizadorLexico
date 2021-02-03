@@ -5,31 +5,29 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
-
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="433.0" prefWidth="726.0" style="-fx-background-color: #e16d1a;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.analizador.Controller.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="433.0" prefWidth="726.0" style="-fx-background-color: #e16d1a;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.analizador.Controller.Controller">
    <children>
-      <TextArea layoutX="80.0" layoutY="10.0" prefHeight="400.0" prefWidth="316.0" style="-fx-border-color: #b29b9b;" wrapText="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="10.0">
+      <TextArea fx:id="txtArea" layoutX="80.0" layoutY="10.0" prefHeight="400.0" prefWidth="316.0" style="-fx-border-color: #b29b9b;" wrapText="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="10.0">
          <effect>
             <InnerShadow height="10.0" radius="4.5" width="10.0" />
          </effect>
       </TextArea>
-      <TableView layoutX="407.0" layoutY="10.0" prefHeight="418.0" prefWidth="316.0" style="-fx-border-color: #b29b9b;" stylesheets="@css/table-view.css">
+      <TableView fx:id="tableView" layoutX="407.0" layoutY="10.0" prefHeight="418.0" prefWidth="316.0" style="-fx-border-color: #b29b9b;" stylesheets="@css/table-view.css">
         <columns>
-          <TableColumn prefWidth="83.0" text="C1" />
-          <TableColumn prefWidth="231.0" text="C2" />
+          <TableColumn fx:id="token" prefWidth="83.0" text="Token" />
+          <TableColumn fx:id="descripcion" prefWidth="231.0" text="Descripción" />
         </columns>
          <effect>
             <InnerShadow height="10.0" radius="4.5" width="10.0" />
          </effect>
       </TableView>
-      <Button alignment="CENTER" layoutX="14.0" layoutY="70.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="28.0" style="-fx-background-color: #ddd600; -fx-border-radius: 30;" text="▶" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="btnCheck" alignment="CENTER" layoutX="14.0" layoutY="70.0" mnemonicParsing="false" onAction="#actionBtn" prefHeight="24.0" prefWidth="28.0" style="-fx-background-color: #ddd600; -fx-border-radius: 30;" text="▶" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Arial" size="25.0" />
          </font>
