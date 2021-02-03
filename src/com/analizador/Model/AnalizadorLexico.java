@@ -7,7 +7,8 @@ import java.util.regex.Pattern;
 public class AnalizadorLexico {
 
 
-    private String[] separateWords(String code){
+    @SuppressWarnings("unused")
+	private String[] separateWords(String code){
         code = code+"\n";
         Pattern p;
         Matcher m;
