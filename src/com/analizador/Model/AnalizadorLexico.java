@@ -72,7 +72,8 @@ public class AnalizadorLexico {
         return matcher.find();
     }
 
-    private String[] separateWords(String code){
+    @SuppressWarnings("unused")
+	private String[] separateWords(String code){
         code = code+"\n";
         Pattern p;
         Matcher m;
