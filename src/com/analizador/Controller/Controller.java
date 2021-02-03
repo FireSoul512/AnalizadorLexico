@@ -2,7 +2,6 @@ package com.analizador.Controller;
 
 import com.analizador.Model.AnalizadorLexico;
 import com.analizador.Model.MostarInfo;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
