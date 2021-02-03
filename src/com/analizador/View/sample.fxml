@@ -1,8 +1,21 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<GridPane fx:controller="com.analizador.Controller.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-</GridPane>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="538.0" prefWidth="538.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextArea fx:id="txtArea" layoutX="36.0" layoutY="88.0" prefHeight="406.0" prefWidth="252.0" />
+      <Button fx:id="btnCheck" layoutX="367.0" layoutY="102.0" mnemonicParsing="false" onAction="#actionBtn" text="VERIFICACION" />
+      <TableView fx:id="tableView" layoutX="314.0" layoutY="181.0" prefHeight="293.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="token" prefWidth="98.0" text="TOKEN" />
+          <TableColumn fx:id="descripcion" prefWidth="101.0" text="DESCRIPCION" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
