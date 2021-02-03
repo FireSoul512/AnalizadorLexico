@@ -21,6 +21,7 @@ public class AnalizadorLexico {
             else if (validarPunto(word)) lexico.add(new MostarInfo(word, "Punto"));
             else if (validarAsignacion(word)) lexico.add(new MostarInfo(word, "Simbolo de agrupacion"));
             else if (validarTerminacio(word)) lexico.add(new MostarInfo(word, "Simbolo de terminacion"));
+            else if (validarComa(word)) lexico.add(new MostarInfo(word, "Coma"));
             else if (validarEspacio(word)) ;
             else lexico.add(new MostarInfo(word, "Error de lexico"));
         }
@@ -34,6 +35,11 @@ public class AnalizadorLexico {
 
     private boolean validarAsignacion(String word){
         if (word.equals("->")) return true;
+        return false;
+    }
+
+    private boolean validarComa(String word){
+        if (word.equals(",")) return true;
         return false;
     }
 
@@ -92,6 +98,7 @@ public class AnalizadorLexico {
         signos.add("-");
         signos.add("\\*");
         signos.add("/");
+        signos.add("\\,");
         signos.add("\\.");
         signos.add("\\(");
         signos.add("\\)");
