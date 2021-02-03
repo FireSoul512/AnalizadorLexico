@@ -21,6 +21,7 @@ public class AnalizadorLexico {
             else if (validarPunto(word)) lexico.add(new MostarInfo(word, "Punto"));
             else if (validarAsignacion(word)) lexico.add(new MostarInfo(word, "Simbolo de agrupacion"));
             else if (validarTerminacio(word)) lexico.add(new MostarInfo(word, "Simbolo de terminacion"));
+            else if (validarEspacio(word)) ;
             else lexico.add(new MostarInfo(word, "Error de lexico"));
         }
         return lexico;
@@ -38,6 +39,11 @@ public class AnalizadorLexico {
 
     private boolean validarPunto(String word){
         if(word.equals("\\.")) return true;
+        return false;
+    }
+
+    private boolean validarEspacio(String word){
+        if (word.equals("")) return true;
         return false;
     }
 
