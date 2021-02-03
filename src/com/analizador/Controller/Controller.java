@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
 
@@ -20,13 +21,13 @@ public class Controller {
     private Button btnCheck;
 
     @FXML
-    private TableView<?> tableView;
+    private TableView<MostarInfo> tableView;
 
     @FXML
-    private TableColumn<?, ?> token;
+    private TableColumn<MostarInfo, String> token;
 
     @FXML
-    private TableColumn<?, ?> descripcion;
+    private TableColumn<MostarInfo, String> descripcion;
 
 
     @FXML
@@ -36,7 +37,11 @@ public class Controller {
             System.out.println("Esta vacio we");
         } else {
             ArrayList<MostarInfo> info = analizador.analizar(text);
-            System.out.println(info);
+            tableView.getItems().clear();
+            token.setCellValueFactory(new PropertyValueFactory<>("word"));
+            descripcion.setCellValueFactory(new PropertyValueFactory<>("description"));
+            tableView.getItems().addAll(info);
+
         }
     }
 }

@@ -17,6 +17,14 @@ public class MostarInfo {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
     @Override
     public String toString() {
         return "LexicalDescription{" +
