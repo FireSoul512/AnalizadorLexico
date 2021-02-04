@@ -44,7 +44,7 @@ public class AnalizadorLexico {
     }
 
     private boolean validarPunto(String word){
-        if(word.equals("\\.")) return true;
+        if(word.equals(".")) return true;
         return false;
     }
 
