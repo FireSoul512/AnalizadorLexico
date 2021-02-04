@@ -32,16 +32,13 @@ public class Controller {
 
     @FXML
     void actionBtn() {
-        String text = txtArea.getText(); //trae los datos del txtArea
-        if (text.isEmpty()){
-            System.out.println("Esta vacio we");
-        } else {
+        String text = txtArea.getText();
+        tableView.getItems().clear();
+        if (!text.isEmpty()){
             ArrayList<MostarInfo> info = analizador.analizar(text);
-            tableView.getItems().clear();
             token.setCellValueFactory(new PropertyValueFactory<>("word"));
             descripcion.setCellValueFactory(new PropertyValueFactory<>("description"));
             tableView.getItems().addAll(info);
-
         }
     }
 }
