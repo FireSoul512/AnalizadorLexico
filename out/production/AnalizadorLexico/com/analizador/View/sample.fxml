@@ -20,8 +20,8 @@
       </TextArea>
       <TableView fx:id="tableView" layoutX="407.0" layoutY="10.0" prefHeight="418.0" prefWidth="316.0" style="-fx-border-color: #b29b9b;" stylesheets="@css/table-view.css">
         <columns>
-          <TableColumn fx:id="token" prefWidth="83.0" text="Token" />
-          <TableColumn fx:id="descripcion" prefWidth="231.0" text="Descripción" />
+          <TableColumn fx:id="token" prefWidth="83.0" text="Lexema" />
+          <TableColumn fx:id="descripcion" prefWidth="231.0" text="Token" />
         </columns>
          <effect>
             <InnerShadow height="10.0" radius="4.5" width="10.0" />

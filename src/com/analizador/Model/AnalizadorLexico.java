@@ -13,13 +13,13 @@ public class AnalizadorLexico {
         String[] separate =separateWords(codigo);
 
         for(String word: separate){
-            if (validarNumero(word))lexico.add(new MostarInfo(word, "Numero"));
+            if (validarNumero(word))lexico.add(new MostarInfo(word, "Digito"));
             else if (validarPalabraReservada(word)) lexico.add(new MostarInfo(word, "Palabra reservada"));
-            else if (validarVariable(word)) lexico.add(new MostarInfo(word, "Variable"));
+            else if (validarVariable(word)) lexico.add(new MostarInfo(word, "Identificador"));
             else if (validarOperador(word)) lexico.add(new MostarInfo(word, "Simbolo de operacion"));
             else if (validarSimboloAgrupacion(word)) lexico.add(new MostarInfo(word, "Simbolo de agrupacion"));
             else if (validarPunto(word)) lexico.add(new MostarInfo(word, "Punto"));
-            else if (validarAsignacion(word)) lexico.add(new MostarInfo(word, "Simbolo de agrupacion"));
+            else if (validarAsignacion(word)) lexico.add(new MostarInfo(word, "Simbolo de asignacion"));
             else if (validarTerminacio(word)) lexico.add(new MostarInfo(word, "Simbolo de terminacion"));
             else if (validarComa(word)) lexico.add(new MostarInfo(word, "Coma"));
             else if (validarEspacio(word)) ;
