@@ -4,10 +4,7 @@ import com.analizador.Model.AnalizadorLexico;
 import com.analizador.Model.MostarInfo;
 import com.analizador.Model.Sintaxis;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
@@ -45,6 +42,13 @@ public class Controller {
             MostarInfo error = analizador.detectaError(info);
             if (error.getWord().equals("Bien")){
                 boolean analizado = sintaxis.analizar(info);
+                if (analizado){
+                    Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                    alerta.setTitle("Correcto");
+                    alerta.setHeaderText("Ejecucion finalizada");
+                    alerta.setContentText("Finalizo exitosamente");
+                    alerta.showAndWait();
+                }
                 System.out.println("------------------------------------------------------------------------");
             }
         }

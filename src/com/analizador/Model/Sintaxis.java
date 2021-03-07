@@ -1,5 +1,7 @@
 package com.analizador.Model;
 
+import javafx.scene.control.Alert;
+
 import java.util.ArrayList;
 
 public class Sintaxis {
@@ -12,7 +14,7 @@ public class Sintaxis {
         String id3 = "<identificador>";
         String SO = "<signos> <diferenciador> <operacion>";
         String arriba = "<vertical>";
-        String abajo  = "<abajo>";
+        String abajo  = "<vertical>";
         String mover = "mover ( <diferenciador> , <diferenciador> )";
         String animar = "animar ( <cruz> )";
         String diagonal = "diagonal ( <horizontal> , <vertical> )";
@@ -77,7 +79,7 @@ public class Sintaxis {
                 }
                 if (posY != -10){
                     int posX = -10;
-                    for (int i = 1; i<24; i++)
+                    for (int i = 1; i<23; i++)
                         if (tabla[0][i].equals(word.getWord()) || tabla[0][i].equals(word.getDescription())){
                             posX = i;
                             break;
@@ -89,7 +91,7 @@ public class Sintaxis {
                         pila.quitar();
                         pila.agregar(tabla[posY][posX]);
                         l--;
-                    } else if (tabla[posY][posX].equals("<VACIO>")) {
+                    } else if (posX != -10 && tabla[posY][posX].equals("<VACIO>")) {
                         pila.imprimir();
                         System.out.print("  --->  ");
                         imprimirLista(codigo, l);
@@ -125,8 +127,32 @@ public class Sintaxis {
     }
 
     private void error(String error, Pila pila){
-        if (error.equals("$")) System.out.println("Codigo incompleto");
-        else
-            System.out.println("Error sintactico en "+error+" se esperaba "+pila.observarUltimo());
+        String er = pila.observarUltimo();
+        switch (er){
+            case "<lienzo>":er = "lienzo y sus tamaños"; break;
+            case "<cuerpo>": er = "}"; break;
+            case "<restoCuerpo>": er = "resto del cuerpo"; break;
+            case "<tipo>":er = "tipo de dato"; break;
+            case "<operacion>":er = "signo de operacion"; break;
+            case "<diferenciador>":er = "un identificador o numero"; break;
+            case "<accion>":er = "una accion a realizar"; break;
+            case "<cruz>":er = "una direccion"; break;
+            case "<horizontal>":er = "una direccion horizontal"; break;
+            case "<vertical>":er = "una direccion vertical"; break;
+            case "<signos>":er = "signos de operacion"; break;
+            case "<identificador>":er = "un identificador"; break;
+            case "<digito>":er = "un digito"; break;
+            default: er = pila.observarUltimo(); break;
+        }
+        System.out.println("Error sintactico en "+error+" se esperaba "+er);
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Error");
+        alerta.setHeaderText("Ejecucion finalizada");
+        if (error.equals("$")) {
+            alerta.setContentText("Error sintactico se esperaba "+er);
+        } else {
+            alerta.setContentText("Error sintactico en "+error+" se esperaba "+er);
+        }
+        alerta.showAndWait();
     }
 }
