@@ -2,6 +2,7 @@ package com.analizador.Controller;
 
 import com.analizador.Model.AnalizadorLexico;
 import com.analizador.Model.MostarInfo;
+import com.analizador.Model.Sintaxis;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 
 public class Controller {
     AnalizadorLexico analizador = new AnalizadorLexico();
+    Sintaxis sintaxis = new Sintaxis();
 
     @FXML
     private TextArea txtArea;
@@ -39,6 +41,12 @@ public class Controller {
             token.setCellValueFactory(new PropertyValueFactory<>("word"));
             descripcion.setCellValueFactory(new PropertyValueFactory<>("description"));
             tableView.getItems().addAll(info);
+
+            MostarInfo error = analizador.detectaError(info);
+            if (error.getWord().equals("Bien")){
+                boolean analizado = sintaxis.analizar(info);
+                System.out.println("------------------------------------------------------------------------");
+            }
         }
     }
 }

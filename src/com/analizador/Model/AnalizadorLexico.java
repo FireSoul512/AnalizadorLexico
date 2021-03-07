@@ -8,6 +8,14 @@ public class AnalizadorLexico {
     private Pattern pattern;
     private Matcher matcher;
 
+    public MostarInfo detectaError(ArrayList<MostarInfo> lexico){
+        for (MostarInfo word: lexico){
+            if (word.getDescription().equals("Error de lexico"))
+                return word;
+        }
+        return new MostarInfo("Bien","Bien");
+    }
+
     public ArrayList<MostarInfo> analizar(String codigo){
         ArrayList<MostarInfo> lexico = new ArrayList<>();
         String[] separate =separateWords(codigo);
@@ -16,7 +24,7 @@ public class AnalizadorLexico {
             if (validarNumero(word))lexico.add(new MostarInfo(word, "Digito"));
             else if (validarPalabraReservada(word)) lexico.add(new MostarInfo(word, "Palabra reservada"));
             else if (validarVariable(word)) lexico.add(new MostarInfo(word, "Identificador"));
-            else if (validarOperador(word)) lexico.add(new MostarInfo(word, "Simbolo de operacion"));
+            else if (validarOperador(word)) lexico.add(new MostarInfo(word, "SimboloOperacion"));
             else if (validarSimboloAgrupacion(word)) lexico.add(new MostarInfo(word, "Simbolo de agrupacion"));
             else if (validarPunto(word)) lexico.add(new MostarInfo(word, "Punto"));
             else if (validarAsignacion(word)) lexico.add(new MostarInfo(word, "Simbolo de asignacion"));
@@ -25,6 +33,8 @@ public class AnalizadorLexico {
             else if (validarEspacio(word)) ;
             else lexico.add(new MostarInfo(word, "Error de lexico"));
         }
+        lexico.add(new MostarInfo("$","Simbolo terminal"));
+
         return lexico;
     }
 
