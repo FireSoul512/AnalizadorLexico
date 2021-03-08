@@ -30,7 +30,7 @@ public class Sintaxis {
         String lienzo = "lienzo ( <digito> , <digito> ) { <cuerpo> }";
         String digito3 = "Digito";
         String id4 = "Identificador";
-        String SO2 =  "simboloOperacion";
+        String SO2 =  "SimboloOperacion";
         String arriba2 = "arriba";
         String abajo2 = "abajo";
         String izquierda2 = "izquierda";

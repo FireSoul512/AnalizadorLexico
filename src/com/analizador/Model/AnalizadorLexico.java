@@ -76,7 +76,7 @@ public class AnalizadorLexico {
     }
 
     private boolean validarPalabraReservada(String word){
-        pattern = Pattern.compile("^(circulo|cuadrado|triangulo|lienzo|int|rotacion|animar|reboteHorizontal|rebotevertical|" +
+        pattern = Pattern.compile("^(circulo|cuadrado|triangulo|lienzo|int|rotacion|animar|reboteHorizontal|reboteVertical|" +
                 "mover|diagonal|izquierda|derecha|arriba|abajo)$");
         matcher = pattern.matcher(word);
         return matcher.find();
