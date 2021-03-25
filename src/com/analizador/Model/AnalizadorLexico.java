@@ -21,8 +21,12 @@ public class AnalizadorLexico {
         String[] separate =separateWords(codigo);
 
         for(String word: separate){
-            if (validarNumero(word))lexico.add(new MostarInfo(word, "Digito"));
-            else if (validarPalabraReservada(word)) lexico.add(new MostarInfo(word, "Palabra reservada"));
+            if (validarNumero(word)) {
+                MostarInfo numero = new MostarInfo(word, "Digito");
+                numero.setTipo("int");
+                numero.setValor(Integer.parseInt(word));
+                lexico.add(numero);
+            } else if (validarPalabraReservada(word)) lexico.add(new MostarInfo(word, "Palabra reservada"));
             else if (validarVariable(word)) lexico.add(new MostarInfo(word, "Identificador"));
             else if (validarOperador(word)) lexico.add(new MostarInfo(word, "SimboloOperacion"));
             else if (validarSimboloAgrupacion(word)) lexico.add(new MostarInfo(word, "Simbolo de agrupacion"));

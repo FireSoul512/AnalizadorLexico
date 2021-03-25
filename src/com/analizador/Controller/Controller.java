@@ -1,6 +1,7 @@
 package com.analizador.Controller;
 
 import com.analizador.Model.AnalizadorLexico;
+import com.analizador.Model.AnalizadorSemantico;
 import com.analizador.Model.MostarInfo;
 import com.analizador.Model.Sintaxis;
 import javafx.fxml.FXML;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 public class Controller {
     AnalizadorLexico analizador = new AnalizadorLexico();
     Sintaxis sintaxis = new Sintaxis();
+    AnalizadorSemantico semantico = new AnalizadorSemantico();
 
     @FXML
     private TextArea txtArea;
@@ -43,6 +45,7 @@ public class Controller {
             if (error.getWord().equals("Bien")){
                 boolean analizado = sintaxis.analizar(info);
                 if (analizado){
+                    semantico.prueba(info);
                     Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                     alerta.setTitle("Correcto");
                     alerta.setHeaderText("Ejecucion finalizada");
