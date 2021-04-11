@@ -5,6 +5,7 @@ import com.analizador.Model.Compilacion.Cuadrado;
 import com.analizador.Model.Compilacion.Lienzo;
 import com.analizador.Model.Compilacion.Triangulo;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,14 @@ public class AnalizadorSemantico {
         else return false;
     }
 
+    private void alertaError(String error){
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Error");
+        alerta.setHeaderText("Error semantico");
+        alerta.setContentText(error);
+        alerta.showAndWait();
+    }
+
     public boolean prueba(ArrayList<MostarInfo> codigo){
         int lienzoX = codigo.get(2).getValor();
         int lienzoY = codigo.get(4).getValor();
@@ -55,10 +64,10 @@ public class AnalizadorSemantico {
                     if (codigo.get(j).getDescription().equals("Identificador")){
                         int pos = buscarPos(declarados, codigo.get(j));
                         if (pos == -50){
-                            System.out.println("Error: La variable '"+codigo.get(j).getWord()+"' no ha sido declarada");
+                            alertaError("Error: La variable '"+codigo.get(j).getWord()+"' no ha sido declarada");
                             return false;
                         } else if (!declarados.get(pos).getTipo().equals("int")){
-                            System.out.println("Error: la variable '"+codigo.get(j).getWord()+"' es tipo '"+declarados.get(pos).getTipo()+"'");
+                            alertaError("Error: la variable '"+codigo.get(j).getWord()+"' es tipo '"+declarados.get(pos).getTipo()+"'");
                             return false;
                         }
                     }
@@ -84,7 +93,7 @@ public class AnalizadorSemantico {
                 } else if (codigo.get(i+1).getWord().equals("circulo") || codigo.get(i+1).getWord().equals("cuadrado") || codigo.get(i+1).getWord().equals("triangulo")) {
                     codigo.get(i-1).setTipo(codigo.get(i+1).getWord());
                 } else {
-                    System.out.println("Error: la varaible '"+codigo.get(i+1).getWord()+"' no se puede utilizar");
+                    alertaError("Error: la varaible '"+codigo.get(i+1).getWord()+"' no se puede utilizar");
                     return false;
                 }
 
@@ -93,37 +102,37 @@ public class AnalizadorSemantico {
                     declarados.add(codigo.get(i-1));
                     switch (codigo.get(i+1).getWord()){
                         case "circulo":
-                            Circulo circulo = new Circulo(codigo.get(i+3).getValor(), codigo.get(i+5).getValor(), codigo.get(i+7).getValor(), lienzoX, lienzoY);
+                            Circulo circulo = new Circulo(valor(declarados, codigo.get(i+3)), valor(declarados, codigo.get(i+5)), valor(declarados, codigo.get(i+7)), lienzoX, lienzoY);
                             circulo.setVariable(codigo.get(i-1).getWord());
                             figuras.add(circulo);
                             break;
                         case "cuadrado":
-                            Cuadrado cuadrado = new Cuadrado(codigo.get(i+3).getValor(), codigo.get(i+5).getValor(), codigo.get(i+7).getValor(), lienzoX, lienzoY);
+                            Cuadrado cuadrado = new Cuadrado(valor(declarados, codigo.get(i+3)), valor(declarados, codigo.get(i+5)), valor(declarados, codigo.get(i+7)), lienzoX, lienzoY);
                             cuadrado.setVariable(codigo.get(i-1).getWord());
                             figuras.add(cuadrado);
                             break;
                         case "triangulo":
-                            Triangulo triangulo = new Triangulo(codigo.get(i+3).getValor(), codigo.get(i+5).getValor(), codigo.get(i+7).getValor(), codigo.get(i+9).getValor(), lienzoX, lienzoY);
+                            Triangulo triangulo = new Triangulo(valor(declarados, codigo.get(i+3)), valor(declarados, codigo.get(i+5)), valor(declarados, codigo.get(i+7)), valor(declarados, codigo.get(i+9)), lienzoX, lienzoY);
                             triangulo.setVariable(codigo.get(i-1).getWord());
                             figuras.add(triangulo);
                             break;
                     }
                 } else {
-                    System.out.println("Error: La variable '"+codigo.get(i-1).getWord()+"' ya ha sido declarada");
+                    alertaError("Error: La variable '"+codigo.get(i-1).getWord()+"' ya ha sido declarada");
                     return false;
                 }
             } else if (codigo.get(i).getWord().equals(".")){
                 MostarInfo inf = buscar(declarados, codigo.get(i-1));
                 if (inf.getTipo().equals("")){
-                    System.out.println("Error: La variable '"+inf.getWord()+"' no ha sido declarada");
+                    alertaError("Error: La variable '"+inf.getWord()+"' no ha sido declarada");
                     return false;
                 } else if (!inf.getTipo().equals("cuadrado") && !inf.getTipo().equals("triangulo") && !inf.getTipo().equals("circulo")){
-                    System.out.println("Error: la variable '"+inf.getWord()+"' es tipo '"+inf.getTipo()+"'");
+                    alertaError("Error: la variable '"+inf.getWord()+"' es tipo '"+inf.getTipo()+"'");
                     return false;
                 } else if (inf.getTipo().equals("cuadrado") || inf.getTipo().equals("triangulo") || inf.getTipo().equals("circulo")){
                     int pos = buscarPosFigura(figuras, codigo.get(i-1).getWord());
                     if (pos == -50){
-                        System.out.println("Error");
+                        alertaError("Ilegal error");
                         return false;
                     } else {
                         switch (codigo.get(i+1).getWord()){
@@ -179,18 +188,18 @@ public class AnalizadorSemantico {
                     }
                 }
             }
-            if (codigo.get(i).getWord().equals("mover")){
-                for (int j = i+2; j<codigo.size() ; j++){
+            if (codigo.get(i).getWord().equals("(")){
+                for (int j = i+1; j<codigo.size() ; j++){
                     i = j;
                     MostarInfo info = buscar(declarados, codigo.get(j));
                     if (codigo.get(j).getWord().equals(")"))
                         j = codigo.size();
 
-                    else if ( !info.getTipo().equals("int") && !info.getWord().equals(",") ){
+                    else if ( !info.getTipo().equals("int") && !info.getWord().equals(",") && !info.getDescription().equals("Palabra reservada")){
                         if(info.getTipo().equals(""))
-                            System.out.println("Error: La variable '"+info.getWord()+"' no ha sido declarada");
+                            alertaError("Error: La variable '"+info.getWord()+"' no ha sido declarada");
                         else
-                            System.out.println("Error: la variable '"+info.getWord()+"' es tipo '"+info.getTipo()+"'");
+                            alertaError("Error: la variable '"+info.getWord()+"' es tipo '"+info.getTipo()+"'");
                         return false;
                     }
                 }
@@ -208,13 +217,6 @@ public class AnalizadorSemantico {
             }
         }
         lienzo.run();
-        for (MostarInfo x:  declarados){
-            System.out.println("-------------");
-            System.out.println(x.getWord());
-            System.out.println(x.getTipo());
-            System.out.println(x.getValor());
-            System.out.println(x.getDescription());
-        }
         return true;
     }
 
