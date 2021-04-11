@@ -17,6 +17,8 @@ public class Cuadrado extends Rectangle {
     private double speedV = 1;
 
     public Cuadrado(int x, int y, int lado, int lienzoX, int lienzoY){
+        if (x > lienzoX) x = lienzoX;
+        if (y > lienzoY) y = lienzoY;
         this.lienzoX = lienzoX;
         this.lienzoY = lienzoY;
         this.setLayoutX(x);

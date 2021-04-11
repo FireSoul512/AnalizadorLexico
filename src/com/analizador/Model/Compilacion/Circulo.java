@@ -17,6 +17,8 @@ public class Circulo extends Circle {
     private double speedV = 1;
 
     public Circulo(int x, int y, int rad, int lienzoX, int lienzoY){
+        if (x > lienzoX) x = lienzoX;
+        if (y > lienzoY) y = lienzoY;
         this.lienzoX = lienzoX;
         this.lienzoY = lienzoY;
         this.setLayoutX(x);

@@ -16,10 +16,12 @@ public class Triangulo extends Polygon{
     private double speedH = 1;
     private double speedV = 1;
 
-    public Triangulo(int x, int y, int base, int altura, double lienzoX, double lienzoY){
+    public Triangulo(int x, int y, int base, int altura, int lienzoX, int lienzoY){
         this.getPoints().addAll(new Double[]{
                 -50.0, 40.0, 50.0, 40.0, 0.0, -60.0
         });
+        if (x > lienzoX) x = lienzoX;
+        if (y > lienzoY) y = lienzoY;
         this.lienzoX=lienzoX;
         this.lienzoY=lienzoY;
         this.setLayoutX(x);
