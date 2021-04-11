@@ -94,9 +94,8 @@ public class AnalizadorSemantico {
                     return false;
                 }
             }
-
-            if (codigo.get(i).getWord().equals("(")){
-                for (int j = i+1; j<codigo.size() ; j++){
+            if (codigo.get(i).getWord().equals("mover")){
+                for (int j = i+2; j<codigo.size() ; j++){
                     i = j;
                     MostarInfo info = buscar(declarados, codigo.get(j));
                     if (codigo.get(j).getWord().equals(")"))
