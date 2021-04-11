@@ -46,11 +46,11 @@ public class Controller {
                 boolean analizado = sintaxis.analizar(info);
                 if (analizado){
                     semantico.prueba(info);
-                    Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                    /*Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                     alerta.setTitle("Correcto");
                     alerta.setHeaderText("Ejecucion finalizada");
                     alerta.setContentText("Finalizo exitosamente");
-                    alerta.showAndWait();
+                    alerta.showAndWait();*/
                 }
                 System.out.println("------------------------------------------------------------------------");
             }
