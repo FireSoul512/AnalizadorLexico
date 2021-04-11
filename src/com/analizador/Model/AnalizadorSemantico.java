@@ -1,5 +1,11 @@
 package com.analizador.Model;
 
+import com.analizador.Model.Compilacion.Circulo;
+import com.analizador.Model.Compilacion.Cuadrado;
+import com.analizador.Model.Compilacion.Lienzo;
+import com.analizador.Model.Compilacion.Triangulo;
+import javafx.scene.Node;
+
 import java.util.ArrayList;
 
 public class AnalizadorSemantico {
@@ -35,7 +41,11 @@ public class AnalizadorSemantico {
     }
 
     public boolean prueba(ArrayList<MostarInfo> codigo){
+        int lienzoX = codigo.get(2).getValor();
+        int lienzoY = codigo.get(4).getValor();
         ArrayList<MostarInfo> declarados = new ArrayList<>();
+        ArrayList<Object> figuras = new ArrayList<>();
+        Lienzo lienzo = new Lienzo(lienzoX, lienzoY);
 
         for (int i = 0; i < codigo.size(); i++){
             if (codigo.get(i).getWord().equals("->") && validarInt(declarados, codigo.get(i+1))){
@@ -66,7 +76,8 @@ public class AnalizadorSemantico {
                     declarados.remove(num);
                     declarados.add(codigo.get(i-1));
                 } i = posicion;
-            } else if (codigo.get(i).getWord().equals("->")){
+            }
+            else if (codigo.get(i).getWord().equals("->")){
                 if (codigo.get(i+1).getWord().equals("int")) {
                     codigo.get(i-1).setValor(codigo.get(i+3).getValor());
                     codigo.get(i-1).setTipo("int");
@@ -80,6 +91,23 @@ public class AnalizadorSemantico {
                 int num = buscarPos(declarados, codigo.get(i-1));
                 if (num == -50){
                     declarados.add(codigo.get(i-1));
+                    switch (codigo.get(i+1).getWord()){
+                        case "circulo":
+                            Circulo circulo = new Circulo(codigo.get(i+3).getValor(), codigo.get(i+5).getValor(), codigo.get(i+7).getValor(), lienzoX, lienzoY);
+                            circulo.setVariable(codigo.get(i-1).getWord());
+                            figuras.add(circulo);
+                            break;
+                        case "cuadrado":
+                            Cuadrado cuadrado = new Cuadrado(codigo.get(i+3).getValor(), codigo.get(i+5).getValor(), codigo.get(i+7).getValor(), lienzoX, lienzoY);
+                            cuadrado.setVariable(codigo.get(i-1).getWord());
+                            figuras.add(cuadrado);
+                            break;
+                        case "triangulo":
+                            Triangulo triangulo = new Triangulo(codigo.get(i+3).getValor(), codigo.get(i+5).getValor(), codigo.get(i+7).getValor(), codigo.get(i+9).getValor(), lienzoX, lienzoY);
+                            triangulo.setVariable(codigo.get(i-1).getWord());
+                            figuras.add(triangulo);
+                            break;
+                    }
                 } else {
                     System.out.println("Error: La variable '"+codigo.get(i-1).getWord()+"' ya ha sido declarada");
                     return false;
@@ -92,6 +120,63 @@ public class AnalizadorSemantico {
                 } else if (!inf.getTipo().equals("cuadrado") && !inf.getTipo().equals("triangulo") && !inf.getTipo().equals("circulo")){
                     System.out.println("Error: la variable '"+inf.getWord()+"' es tipo '"+inf.getTipo()+"'");
                     return false;
+                } else if (inf.getTipo().equals("cuadrado") || inf.getTipo().equals("triangulo") || inf.getTipo().equals("circulo")){
+                    int pos = buscarPosFigura(figuras, codigo.get(i-1).getWord());
+                    if (pos == -50){
+                        System.out.println("Error");
+                        return false;
+                    } else {
+                        switch (codigo.get(i+1).getWord()){
+                            case "mover":
+                                if (figuras.get(pos).getClass() == Circulo.class)
+                                    ((Circulo)figuras.get(pos)).mover(valor(declarados, codigo.get(i+3)), valor(declarados, codigo.get(i+5)));
+                                else if (figuras.get(pos).getClass() == Cuadrado.class)
+                                    ((Cuadrado)figuras.get(pos)).mover(valor(declarados, codigo.get(i+3)), valor(declarados, codigo.get(i+5)));
+                                else
+                                    ((Triangulo)figuras.get(pos)).mover(valor(declarados, codigo.get(i+3)), valor(declarados, codigo.get(i+5)));
+                                break;
+                            case "animar":
+                                if (figuras.get(pos).getClass() == Circulo.class)
+                                    ((Circulo)figuras.get(pos)).animar(decoficicarAccionCruz(codigo.get(i+3).getWord()));
+                                else if (figuras.get(pos).getClass() == Cuadrado.class)
+                                    ((Cuadrado)figuras.get(pos)).animar(decoficicarAccionCruz(codigo.get(i+3).getWord()));
+                                else
+                                    ((Triangulo)figuras.get(pos)).animar(decoficicarAccionCruz(codigo.get(i+3).getWord()));
+                                break;
+                            case "diagonal":
+                                if (figuras.get(pos).getClass() == Circulo.class)
+                                    ((Circulo)figuras.get(pos)).diagonal(decoficicarAccionHorizontal(codigo.get(i+3).getWord()), decoficicarAccionVertical(codigo.get(i+5).getWord()));
+                                else if (figuras.get(pos).getClass() == Cuadrado.class)
+                                    ((Cuadrado)figuras.get(pos)).diagonal(decoficicarAccionHorizontal(codigo.get(i+3).getWord()), decoficicarAccionVertical(codigo.get(i+5).getWord()));
+                                else
+                                    ((Triangulo)figuras.get(pos)).diagonal(decoficicarAccionHorizontal(codigo.get(i+3).getWord()), decoficicarAccionVertical(codigo.get(i+5).getWord()));
+                                break;
+                            case "rotacion":
+                                if (figuras.get(pos).getClass() == Circulo.class)
+                                    ((Circulo)figuras.get(pos)).rotacion(valor(declarados, codigo.get(i+3)));
+                                else if (figuras.get(pos).getClass() == Cuadrado.class)
+                                    ((Cuadrado)figuras.get(pos)).rotacion(valor(declarados, codigo.get(i+3)));
+                                else
+                                    ((Triangulo)figuras.get(pos)).rotacion(valor(declarados, codigo.get(i+3)));
+                                break;
+                            case "reboteHorizontal":
+                                if (figuras.get(pos).getClass() == Circulo.class)
+                                    ((Circulo)figuras.get(pos)).reboteHorizontal(decoficicarAccionHorizontal(codigo.get(i+3).getWord()));
+                                else if (figuras.get(pos).getClass() == Cuadrado.class)
+                                    ((Cuadrado)figuras.get(pos)).reboteHorizontal(decoficicarAccionHorizontal(codigo.get(i+3).getWord()));
+                                else
+                                    ((Triangulo)figuras.get(pos)).reboteHorizontal(decoficicarAccionHorizontal(codigo.get(i+3).getWord()));
+                                break;
+                            case "reboteVertical":
+                                if (figuras.get(pos).getClass() == Circulo.class)
+                                    ((Circulo)figuras.get(pos)).reboteVertical(decoficicarAccionHorizontal(codigo.get(i+3).getWord()));
+                                else if (figuras.get(pos).getClass() == Cuadrado.class)
+                                    ((Cuadrado)figuras.get(pos)).reboteVertical(decoficicarAccionVertical(codigo.get(i+3).getWord()));
+                                else
+                                    ((Triangulo)figuras.get(pos)).reboteVertical(decoficicarAccionVertical(codigo.get(i+3).getWord()));
+                                break;
+                        }
+                    }
                 }
             }
             if (codigo.get(i).getWord().equals("mover")){
@@ -112,6 +197,17 @@ public class AnalizadorSemantico {
             }
 
         }
+        for (Object temp: figuras){
+            lienzo.agregarFigura((Node)temp);
+            if (temp.getClass() == Cuadrado.class){
+                ((Cuadrado) temp).animacion();
+            } else if (temp.getClass() == Circulo.class){
+                ((Circulo) temp).animacion();
+            } else if (temp.getClass() == Triangulo.class){
+                ((Triangulo) temp).animacion();
+            }
+        }
+        lienzo.run();
         for (MostarInfo x:  declarados){
             System.out.println("-------------");
             System.out.println(x.getWord());
@@ -122,6 +218,45 @@ public class AnalizadorSemantico {
         return true;
     }
 
+    private int buscarPosFigura(ArrayList<Object> figuras, String variable){
+        for(int j = 0; j<figuras.size(); j++){
+            if (figuras.get(j).getClass() == Cuadrado.class){
+                if (((Cuadrado)figuras.get(j)).getVariable().equals(variable)) return j;
+            } else if (figuras.get(j).getClass() == Circulo.class){
+                if (((Circulo)figuras.get(j)).getVariable().equals(variable)) return j;
+            } else {
+                if (((Triangulo)figuras.get(j)).getVariable().equals(variable)) return j;
+            }
+        }
+        return -50;
+    }
+
+    private int decoficicarAccionVertical(String accion){
+        switch (accion){
+            case "arriba": return 1;
+            case "abajo":  return 2;
+        }
+        return -50;
+    }
+
+    private int decoficicarAccionHorizontal(String accion){
+        switch (accion){
+            case "izquierda": return 1;
+            case "derecha": return 2;
+        }
+        return -50;
+    }
+
+    private int decoficicarAccionCruz(String accion){
+        switch (accion){
+            case "arriba": return 4;
+            case "abajo":  return 3;
+            case "izquierda": return 2;
+            case "derecha": return 1;
+        }
+        return -50;
+    }
+
     private MostarInfo buscar(ArrayList<MostarInfo> declarados, MostarInfo word){
         for (MostarInfo declarado: declarados){
             if(declarado.getWord().equals(word.getWord())){
@@ -129,6 +264,15 @@ public class AnalizadorSemantico {
             }
         }
         return word;
+    }
+
+    private int valor(ArrayList<MostarInfo> declarados, MostarInfo word){
+        for (int i= 0; i<declarados.size(); i++){
+            if (declarados.get(i).getWord().equals(word.getWord())){
+                return declarados.get(i).getValor();
+            }
+        }
+        return word.getValor();
     }
 
     private int buscarPos(ArrayList<MostarInfo> declarados, MostarInfo word){
